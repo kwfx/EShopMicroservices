@@ -30,6 +30,7 @@ namespace Catalog.API.Products.CreateProduct
         public Task<ProductCommandCreateResultDto> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var newProduct = command.Adapt<Product>();
+            newProduct.Id = Guid.NewGuid();
             // Save to DB
             return Task.FromResult(newProduct.Adapt<ProductCommandCreateResultDto>());
         }
