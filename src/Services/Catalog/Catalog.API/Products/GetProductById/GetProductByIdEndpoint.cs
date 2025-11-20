@@ -15,7 +15,7 @@ namespace Catalog.API.Products.GetProductById
             })
             .WithName("GetProduct")
             .Produces<GetProductResponse>(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status500InternalServerError); ;
+            .ProducesProblem(StatusCodes.Status400BadRequest); ;
         }
     }
 
