@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMarten(opts =>
 {
-  opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+  opts.Connection(builder.Configuration.GetConnectionString("Default")!);
 }).UseLightweightSessions();
 
 builder.Services.AddCarter(new DependencyContextAssemblyCatalogCustom());
