@@ -1,0 +1,12 @@
+services:
+  catalogapi:
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/.dockerfile
+      args:
+        - CONNECTION_STRING=Server=catalogdb;Port=5432;Username=root;Password=root;Database=CatalogDb
+  catalogdb:
+    image: postgres:17
+
+volumes:
+  postgres_catalog:

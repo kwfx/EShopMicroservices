@@ -1,0 +1,20 @@
+services:
+  catalogapi:
+    depends_on:
+      - catalogdb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__Default=Server=catalogdb;Port=5432;Username=root;Password=root;Database=CatalogDb
+    ports:
+      - 6060:8080
+      - 6061:8081
+  catalogdb:
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=CatalogDb
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/data/ 
