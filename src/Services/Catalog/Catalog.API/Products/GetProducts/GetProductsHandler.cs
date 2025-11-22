@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BuildingBlocks.CQRS;
-
 namespace Catalog.API.Products.GetProducts
 {
     public record GetProductsQuery : IQuery<GetProductsQueryResponse> { }
 
-    public class GetProductsHandler(IDocumentSession session, ILogger<GetProductsHandler> logger) : IQueryHandler<GetProductsQuery, GetProductsQueryResponse>
+    public class GetProductsHandler(IDocumentSession session) : IQueryHandler<GetProductsQuery, GetProductsQueryResponse>
     {
         public async Task<GetProductsQueryResponse> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"Getting all products ...");
             var products = await session.Query<Product>().ToListAsync(cancellationToken);
             return new GetProductsQueryResponse()
             {

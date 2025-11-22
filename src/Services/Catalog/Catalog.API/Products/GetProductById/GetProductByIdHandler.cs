@@ -21,11 +21,8 @@ namespace Catalog.API.Products.GetProductById
     {
         public async Task<GetProductByIdResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await session.LoadAsync<Product>(request.ProductId, cancellationToken);
-            if (product == null)
-            {
-                throw new NotFoundException("Product", $"Id: {request.ProductId}");
-            }
+            var product = await session.LoadAsync<Product>(request.ProductId, cancellationToken)
+                ?? throw new NotFoundException("Product", $"Id: {request.ProductId}");
             return product.Adapt<GetProductByIdResponse>();
         }
     }
