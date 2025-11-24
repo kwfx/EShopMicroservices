@@ -1,14 +1,11 @@
-using System;
-using Basket.API.Models;
-using FluentValidation;
-
 namespace Basket.API.Basket.StoreBasket;
 
-public class StoreBasketHandler : ICommandHandler<StoreBasketCommand, StoreBasketResult>
+public class StoreBasketHandler(IBasketRepository basketRepository) : ICommandHandler<StoreBasketCommand, StoreBasketResult>
 {
     public async Task<StoreBasketResult> Handle(StoreBasketCommand request, CancellationToken cancellationToken)
     {
-        return new StoreBasketResult("");
+        var cart = await basketRepository.StoreBasket(request.Cart, cancellationToken);
+        return new StoreBasketResult(cart.Username);
     }
 }
 

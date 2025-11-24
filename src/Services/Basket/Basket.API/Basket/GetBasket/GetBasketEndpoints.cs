@@ -1,13 +1,11 @@
 
-using Basket.API.Models;
-
 namespace Basket.API.Basket.GetBasket;
 
 public class GetBasketEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/basket/{username}", async (ISender sender, string username) =>
+        app.MapGet("basket/{username}", async (ISender sender, string username) =>
         {
             var result = await sender.Send(new GetBasketRequest(username).Adapt<GetBasketQuery>());
             return result.Adapt<GetBasketResponse>();
@@ -18,10 +16,6 @@ public class GetBasketEndpoints : ICarterModule
     }
 }
 
-internal record GetBasketRequest(string Username)
-{
-}
+public record GetBasketRequest(string Username);
 
-internal record GetBasketResponse(ShoppingCart Cart)
-{
-}
+public record GetBasketResponse(ShoppingCart Cart);

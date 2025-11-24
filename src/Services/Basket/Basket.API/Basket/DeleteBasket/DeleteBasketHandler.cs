@@ -1,12 +1,11 @@
-using FluentValidation;
-
 namespace Basket.API.Basket.DeleteBasket;
 
-public class DeleteBasketHandler : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
+public class DeleteBasketHandler(IBasketRepository basketRepository) : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
 {
     public async Task<DeleteBasketResult> Handle(DeleteBasketCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var result = await basketRepository.DeleteBasket(request.Username, cancellationToken);
+        return new DeleteBasketResult(result);
     }
 }
 

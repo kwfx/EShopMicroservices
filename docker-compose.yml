@@ -5,8 +5,17 @@ services:
       dockerfile: src/Services/Catalog/Catalog.API/.dockerfile
       args:
         - CONNECTION_STRING=Server=catalogdb;Port=5432;Username=root;Password=root;Database=CatalogDb
+  basketapi:
+    build:
+      context: .
+      dockerfile: src/Services/Basket/Basket.API/.dockerfile
+      args:
+        - CONNECTION_STRING=Server=basketdb;Port=5432;Username=root;Password=root;Database=BasketDb
   catalogdb:
+    image: postgres:17
+  basketdb:
     image: postgres:17
 
 volumes:
   postgres_catalog:
+  postgres_basket:
