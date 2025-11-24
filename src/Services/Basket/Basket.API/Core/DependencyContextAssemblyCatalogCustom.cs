@@ -1,7 +1,6 @@
 using System.Reflection;
-using Carter;
 
-namespace Catalog.API.Core
+namespace Basket.API.Core
 {
     public class DependencyContextAssemblyCatalogCustom : DependencyContextAssemblyCatalog
     {
