@@ -13,10 +13,12 @@ services:
   basketapi:
     depends_on:
       - basketdb
+      - redis
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5001
       - ConnectionStrings__Default=Server=basketdb;Port=5432;Username=root;Password=root;Database=BasketDb
+      - ConnectionStrings__Redis=redis:6379
     ports:
       - 6001:5001
       - 6061:5051
@@ -40,3 +42,8 @@ services:
       - 5434:5432
     volumes:
       - ${USERPROFILE}/DevProjects/docker-volumes/postgres-basket:/var/lib/postgresql/data/ 
+  redis:
+    container_name: distibutedCache
+    restart: always
+    ports:
+      - 6379:6379
