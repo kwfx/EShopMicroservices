@@ -15,15 +15,13 @@ public class CachedBasketRepository(IBasketRepository repository, IDistributedCa
 
     public async Task<ShoppingCart> GetBasket(string username, CancellationToken token = default)
     {
-        ShoppingCart cart;
         var cartBytes = await cache.GetAsync($"cart-{username}", token);
         if (cartBytes?.Length > 0)
         {
             logger.LogInformation("Getting Cart from cache ....");
-            cart = JsonSerializer.Deserialize<ShoppingCart>(cartBytes)!;
-            return cart;
+            return JsonSerializer.Deserialize<ShoppingCart>(cartBytes)!;
         }
-        cart = await repository.GetBasket(username, token);
+        var cart = await repository.GetBasket(username, token);
         await cache.SetAsync($"cart-{username}", JsonSerializer.SerializeToUtf8Bytes(cart), token);
         return cart;
     }
