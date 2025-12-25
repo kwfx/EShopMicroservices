@@ -1,8 +1,10 @@
+using Discount.Grpc.Data;
 using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Discount.Grpc.Services;
 
-public class DiscountService : DiscountProtoService.DiscountProtoServiceBase
+public class DiscountService(DiscountDbContext discountDbContext) : DiscountProtoService.DiscountProtoServiceBase
 {
     public override Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
     {
@@ -14,10 +16,18 @@ public class DiscountService : DiscountProtoService.DiscountProtoServiceBase
         return base.DeleteDiscount(request, context);
     }
 
-    public override Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
+    public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
     {
         string productName = request.ProductName;
-        throw new NotImplementedException("");
+        var coupon = await discountDbContext.Coupons.FirstOrDefaultAsync(c => c.ProductName == productName)
+            ?? throw new Exception($"No coupon found for product {productName}");
+        return new CouponModel
+        {
+            Id = coupon.Id,
+            ProductName = coupon.ProductName,
+            Description = coupon.Description,
+            Amount = coupon.Amount,
+        };
     }
 
     public override Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
