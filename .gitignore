@@ -52,3 +52,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+Discount.db-shm
+Discount.db-wal

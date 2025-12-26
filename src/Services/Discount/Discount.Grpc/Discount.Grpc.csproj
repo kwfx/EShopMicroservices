@@ -15,6 +15,6 @@
     <PackageReference Include="Grpc.AspNetCore" Version="2.76.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4" />
+    <PackageReference Include="Mapster" Version="7.4.0" /> <!-- Do not reference Building blocks here for performance purpose --> 
   </ItemGroup>
-
 </Project>
