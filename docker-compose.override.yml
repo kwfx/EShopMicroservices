@@ -23,6 +23,20 @@ services:
       - 6001:5001
       - 6061:5051
 
+  discountapi:
+    depends_on:
+      - basketapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=55559999
+      - ConnectionStrings__Default=Data Source=./Discount.db
+    ports:
+      - 6002:8081
+    volumes:
+      - ${USERPROFILE}/.dotnet/https:/https
+
   catalogdb:
     environment:
       - POSTGRES_USER=root
