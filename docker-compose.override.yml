@@ -14,18 +14,23 @@ services:
     depends_on:
       - basketdb
       - redis
+      - discountapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5001
+      - ASPNETCORE_HTTPS_PORTS=5051
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=55559999
       - ConnectionStrings__Default=Server=basketdb;Port=5432;Username=root;Password=root;Database=BasketDb
       - ConnectionStrings__Redis=redis:6379
+      - Grpc__url=https://discountapi:8081
     ports:
       - 6001:5001
       - 6061:5051
+    volumes:
+      - ${USERPROFILE}/.dotnet/https:/https
 
   discountapi:
-    depends_on:
-      - basketapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTPS_PORTS=8081

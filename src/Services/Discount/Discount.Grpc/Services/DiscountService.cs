@@ -29,7 +29,7 @@ public class DiscountService(DiscountDbContext discountDbContext) : DiscountProt
     {
         string productName = request.ProductName;
         var coupon = await discountDbContext.Coupons.FirstOrDefaultAsync(c => c.ProductName == productName)
-            ?? throw new RpcException(new Status(StatusCode.InvalidArgument, $"No coupon found for product {productName}"));
+            ?? new() { ProductName = productName, Amount = 0, Description = "No Coupon for this Product" };
         return coupon.Adapt<CouponModel>();
     }
 

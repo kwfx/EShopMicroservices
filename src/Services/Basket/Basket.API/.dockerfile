@@ -20,5 +20,9 @@ RUN dotnet publish "./Basket.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+# USER root
+# COPY src/Services/Basket/Basket.API/client.crt /usr/local/share/ca-certificates/client.crt
+# RUN chmod 644 /usr/local/share/ca-certificates/client.crt && update-ca-certificates
+# USER app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Basket.API.dll"]
