@@ -10,5 +10,6 @@ builder.Services.AddApplicationServices()
 
 var app = builder.Build();
 app.UseApiServices();
+app.UseAutoMigrate();
 
 app.Run();
