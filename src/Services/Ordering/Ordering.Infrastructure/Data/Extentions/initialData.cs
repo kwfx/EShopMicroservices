@@ -1,7 +1,7 @@
 
-namespace Ordering.Infrastructure;
+namespace Ordering.Infrastructure.Data.Extentions;
 
-public static class IniatilizeDataBase
+public static class InitialData
 {
     public static List<Customer> Customers => [
         Customer.Create(CustomerId.Of(new Guid("4ab75842-a173-462d-b090-1356a54e9220")), "Customer 1", "mailexample1@eshop.com"),
@@ -48,33 +48,5 @@ public static class IniatilizeDataBase
             order2.AddOrderItem(Products[5].Id, Products[5].Price, 1);
             return [order1, order2];
         }
-    }
-
-    public static async Task SeedData(ApplicationDbContext context)
-    {
-        await SeedCustomers(context);
-        await SeedProducts(context);
-        await SeedOrders(context);
-    }
-
-    private static async Task SeedCustomers(ApplicationDbContext context)
-    {
-        if (context.Customers.Any()) return;
-        context.Customers.AddRange(Customers);
-        await context.SaveChangesAsync();
-    }
-
-    private static async Task SeedProducts(ApplicationDbContext context)
-    {
-        if (context.Products.Any()) return;
-        context.Products.AddRange(Products);
-        await context.SaveChangesAsync();
-    }
-
-    private static async Task SeedOrders(ApplicationDbContext context)
-    {
-        if (context.Orders.Any()) return;
-        context.Orders.AddRange(Orders);
-        await context.SaveChangesAsync();
     }
 }

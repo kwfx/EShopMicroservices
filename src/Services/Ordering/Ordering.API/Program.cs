@@ -1,6 +1,7 @@
 using Ordering.API;
 using Ordering.Application;
 using Ordering.Infrastructure;
+using Ordering.Infrastructure.Data.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,13 +10,9 @@ builder.Services.AddApplicationServices()
                 .AddWebServices();
 
 var app = builder.Build();
+
 app.UseApiServices();
 
-await app.UseAutoMigrate();
-
-if (app.Environment.IsDevelopment())
-{
-    await app.UseInitializeData();
-}
+await app.UseInitializeData();
 
 app.Run();
