@@ -10,6 +10,12 @@ builder.Services.AddApplicationServices()
 
 var app = builder.Build();
 app.UseApiServices();
-app.UseAutoMigrate();
+
+await app.UseAutoMigrate();
+
+if (app.Environment.IsDevelopment())
+{
+    await app.UseInitializeData();
+}
 
 app.Run();

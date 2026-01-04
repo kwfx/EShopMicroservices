@@ -9,5 +9,7 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
         builder.Property(c => c.Quantity).IsRequired();
         builder.Property(c => c.UnitPrice).IsRequired();
         builder.HasOne<Product>().WithMany().HasForeignKey(c => c.ProductId);
+        builder.Property(c => c.UnitPrice).HasColumnType("decimal(10, 2)");
+        builder.Property(c => c.Quantity).HasColumnType("decimal(10, 2)");
     }
 }

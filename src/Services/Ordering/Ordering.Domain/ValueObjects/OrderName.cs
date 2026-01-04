@@ -6,6 +6,8 @@ public record OrderName
 
     public string Value { get; } = default!;
 
+    protected OrderName() { }
+
     private OrderName(string name)
     {
         Value = name;

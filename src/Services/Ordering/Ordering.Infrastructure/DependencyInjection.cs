@@ -9,17 +9,26 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Default");
-        services.AddSqlServer<ApplicationDbContext>(connectionString);
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlServer(configuration.GetConnectionString("Default"));
+        });
         return services;
     }
 
-    public static WebApplication UseAutoMigrate(this WebApplication app)
+    public static async Task<WebApplication> UseAutoMigrate(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>()!;
-        context.Database.Migrate();
-        SeedData.Run(context);
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await context.Database.MigrateAsync();
+        return app;
+    }
+
+    public static async Task<WebApplication> UseInitializeData(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await IniatilizeDataBase.SeedData(context);
         return app;
     }
 }

@@ -6,8 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>cb408dbf-83cd-4240-869d-898b974814dc</UserSecretsId>
   </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Ordering.Application\Ordering.Application.csproj" />
     <ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22" />
   </ItemGroup>
 </Project>

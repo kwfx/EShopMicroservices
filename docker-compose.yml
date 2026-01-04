@@ -27,6 +27,9 @@ services:
   redis:
     image: redis
 
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
 volumes:
   postgres_catalog:
   postgres_basket:

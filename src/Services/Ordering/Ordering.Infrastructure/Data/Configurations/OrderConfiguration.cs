@@ -52,6 +52,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.Property(o => o.Status).HasConversion(eValue => eValue.ToString(), dValue => (OrderStatus)Enum.Parse(typeof(OrderStatus), dValue));
 
-        builder.Property(o => o.TotalPrice);
+        builder.Property(o => o.TotalPrice).HasColumnType("decimal(10, 2)");
     }
 }

@@ -17,6 +17,7 @@ public class Order : Aggregate<OrderId>
         {
             return OrderItems.Sum(item => item.TotalPrice);
         }
+        set { }
     }
 
     public static Order Create(OrderId id, OrderName orderName, CustomerId customerId, Address deliveryAddress, Address billingAddress, Payment payment)

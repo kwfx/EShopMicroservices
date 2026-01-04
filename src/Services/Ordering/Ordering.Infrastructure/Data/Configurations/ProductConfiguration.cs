@@ -7,5 +7,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).HasConversion(cId => cId.Value, idDb => ProductId.Of(idDb));
         builder.Property(c => c.Name).HasMaxLength(255).IsRequired();
+        builder.Property(c => c.Price).HasColumnType("decimal(10, 2)");
     }
 }
