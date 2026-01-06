@@ -10,3 +10,4 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using Ordering.Domain.Abstractions;
+global using MediatR;
