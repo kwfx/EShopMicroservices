@@ -13,6 +13,7 @@ public static class DependencyInjection
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
             options.UseSqlServer(configuration.GetConnectionString("Default"));
         });
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         return services;
     }
 }
