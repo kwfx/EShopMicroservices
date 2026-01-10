@@ -13,3 +13,5 @@ global using Ordering.Domain.ValueObjects;
 global using Ordering.Application.Exceptions;
 global using MediatR;
 global using Ordering.Domain.Events;
+global using BuildingBlocks.Pagination;
+global using Ordering.Application.Extensions;
