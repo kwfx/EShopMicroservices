@@ -46,6 +46,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             builder.Property(p => p.AddressLine).HasMaxLength(180).IsRequired();
             builder.Property(p => p.CardName).HasMaxLength(50);
             builder.Property(p => p.CardNumber).HasMaxLength(50).IsRequired();
+            builder.Property(p => p.Expiration).HasMaxLength(5).IsRequired();
             builder.Property(p => p.CVV).HasMaxLength(3).IsRequired();
             builder.Property(p => p.PaymentMethod);
         });
