@@ -5,7 +5,7 @@ public class GetOrderByCustomerHandler(IApplicationDbContext dbContext) : IQuery
     public async Task<GetOrdersByCustomerResponse> Handle(GetOrdersByCustomerQuery request, CancellationToken cancellationToken)
     {
         var orders = await dbContext.Orders
-            .Where(o => o.CustomerId.Value == request.CustomerId)
+            .Where(o => o.CustomerId == CustomerId.Of(request.CustomerId))
             .OrderByDescending(o => o.OrderName.Value)
             .Select(o => o.ToOrderDto())
             .ToListAsync(cancellationToken);

@@ -13,14 +13,18 @@ public class GetOrdersHandler(IApplicationDbContext dbContext) : IQueryHandler<G
         var pageCount = (int)Math.Ceiling((double)totalCount / pageSize);
         var resultOrders = await orderQuery
             .OrderByDescending(o => o.OrderName.Value)
-                .ThenByDescending(o => o.Id.Value)
-            .AsNoTracking()
             .Skip(pageSize * (request.PageIndex - 1))
             .Take(pageSize)
             .Select(o => o.ToOrderDto())
             .ToListAsync(cancellationToken);
 
-        return new PaginationResult<OrderDto>(request.PageIndex, resultOrders, pageSize, pageCount, totalCount);
+        return new PaginationResult<OrderDto>(
+            request.PageIndex,
+            resultOrders,
+            Math.Min(resultOrders.Count, pageSize),
+            pageCount,
+            totalCount
+        );
     }
 };
 

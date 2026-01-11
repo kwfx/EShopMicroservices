@@ -4,7 +4,7 @@ public class UpdateOrderCommandHandler(IApplicationDbContext dbContext) : IComma
 {
     public async Task<UpdateOrderResult> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
-        var dbOrder = await dbContext.Orders.FindAsync(request.Order.Id, cancellationToken);
+        var dbOrder = await dbContext.Orders.FindAsync(OrderId.Of((Guid)request.Order.Id!), cancellationToken);
         if (dbOrder is null)
         {
             throw new OrderNotFoundException(request.Order.Id ?? Guid.Empty);
@@ -12,7 +12,7 @@ public class UpdateOrderCommandHandler(IApplicationDbContext dbContext) : IComma
         UpdateOrder(dbOrder, request.Order);
         dbContext.Orders.Update(dbOrder);
         await dbContext.SaveChangesAsync(cancellationToken);
-        return dbOrder.Adapt<UpdateOrderResult>();
+        return new UpdateOrderResult(true);
     }
 
     public void UpdateOrder(Order order, OrderDto newValues)

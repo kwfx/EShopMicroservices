@@ -7,10 +7,10 @@ public class CreateOrderCommandHandler(IApplicationDbContext dbContext) : IComma
         var newOrder = CreateOrder(request.Order);
         dbContext.Orders.Add(newOrder);
         await dbContext.SaveChangesAsync(cancellationToken);
-        return newOrder.Adapt<CreateOrderResult>();
+        return new CreateOrderResult(newOrder.Id.Value);
     }
 
-    public Order CreateOrder(OrderDto order)
+    public static Order CreateOrder(OrderDto order)
     {
         var billingAddress = Address.Of(
             order.BillingAddress.FirstName,

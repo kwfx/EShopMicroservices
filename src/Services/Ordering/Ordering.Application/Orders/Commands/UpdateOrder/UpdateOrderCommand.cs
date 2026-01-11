@@ -2,7 +2,7 @@ namespace Ordering.Application.Orders.Commands.UpdateOrder;
 
 public record UpdateOrderCommand(OrderDto Order) : ICommand<UpdateOrderResult>;
 
-public record UpdateOrderResult(Guid Id);
+public record UpdateOrderResult(bool IsSuccess);
 
 public class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderCommand>
 {
@@ -10,6 +10,5 @@ public class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderCommand>
     {
         RuleFor(x => x.Order.OrderName).NotEmpty().WithMessage("Order Name is required");
         RuleFor(x => x.Order.CustomerId).NotNull().WithMessage("CustomerId is required");
-        RuleFor(x => x.Order.OrderItems).NotEmpty().WithMessage("Order shoud have at least one order item");
     }
 }

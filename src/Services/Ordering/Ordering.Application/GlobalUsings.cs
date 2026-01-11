@@ -15,3 +15,5 @@ global using MediatR;
 global using Ordering.Domain.Events;
 global using BuildingBlocks.Pagination;
 global using Ordering.Application.Extensions;
+global using BuildingBlocks.Behaviours;
+global using Ordering.Application.Orders.Commands.CreateOrder;

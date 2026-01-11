@@ -5,7 +5,7 @@ public class DeleteOrderHandler(IApplicationDbContext dbContext) : ICommandHandl
 {
     public async Task<DeleteOrderResult> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
     {
-        var dbOrder = await dbContext.Orders.FindAsync(request.Id, cancellationToken);
+        var dbOrder = await dbContext.Orders.FindAsync(OrderId.Of(request.Id), cancellationToken);
         if (dbOrder is null)
         {
             throw new OrderNotFoundException(request.Id);
