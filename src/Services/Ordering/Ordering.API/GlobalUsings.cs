@@ -9,3 +9,6 @@ global using Ordering.Application.Orders.Commands.UpdateOrder;
 global using Ordering.Application.Dtos;
 global using System.Reflection;
 global using FluentValidation;
+global using BuildingBlocks.Exceptions.Handler;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using HealthChecks.UI.Client;
