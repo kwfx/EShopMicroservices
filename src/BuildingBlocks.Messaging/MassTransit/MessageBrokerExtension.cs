@@ -7,7 +7,7 @@ namespace BuildingBlocks.Messaging.MassTransit;
 
 public static class MessageBrokerExtension
 {
-    public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration configuration, Assembly? assembly)
+    public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration configuration, Assembly? assembly = null)
     {
         services.AddMassTransit(cfg =>
         {

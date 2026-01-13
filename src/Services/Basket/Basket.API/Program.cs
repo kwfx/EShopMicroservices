@@ -1,11 +1,8 @@
-using BuildingBlocks.Exceptions.Handler;
-using Discount.Grpc;
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
+
 builder.Services.AddCarter(new DependencyContextAssemblyCatalogCustom());
 builder.Services.AddMediatR(cfg =>
 {
@@ -41,6 +38,9 @@ builder.Services.AddStackExchangeRedisCache(opts =>
 {
     opts.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
+
+builder.Services.AddMessageBroker(builder.Configuration);
+
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Default")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
