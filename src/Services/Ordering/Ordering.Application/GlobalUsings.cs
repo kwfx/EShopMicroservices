@@ -17,3 +17,5 @@ global using BuildingBlocks.Pagination;
 global using Ordering.Application.Extensions;
 global using BuildingBlocks.Behaviours;
 global using Ordering.Application.Orders.Commands.CreateOrder;
+global using BuildingBlocks.Messaging.Events;
+global using MassTransit;
