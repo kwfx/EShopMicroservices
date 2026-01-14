@@ -19,3 +19,7 @@ global using BuildingBlocks.Behaviours;
 global using Ordering.Application.Orders.Commands.CreateOrder;
 global using BuildingBlocks.Messaging.Events;
 global using MassTransit;
+global using BuildingBlocks.Messaging.MassTransit;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.FeatureManagement;

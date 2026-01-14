@@ -7,7 +7,6 @@ public static class DependencyInjection
         services.AddCarter(new DependencyContextAssemblyCatalogCustom());
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
-        services.AddMessageBroker(configuration, typeof(Program).Assembly);
         services.AddHealthChecks()
                 .AddSqlServer(configuration.GetConnectionString("Default")!);
         return services;
