@@ -21,7 +21,7 @@ public class BasketCheckoutEventHandler(ISender sender) : IConsumer<BasketChecko
         );
         var createOrderCommand = new CreateOrderCommand(new OrderDto(
             Guid.NewGuid(),
-            [],
+            values.Items.Adapt<List<OrderItemDto>>(),
             $"order {values.UserName}",
             values.CustomerId,
             OrderStatus.Pending,

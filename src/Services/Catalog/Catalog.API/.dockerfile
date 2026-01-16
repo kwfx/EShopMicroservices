@@ -8,9 +8,15 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/BuildingBlocks/BuildingBlocks.csproj", "BuildingBlocks/"]
+COPY ["src/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "BuildingBlocks.Messaging/"]
 COPY ["src/Services/Catalog/Catalog.API/Catalog.API.csproj", "Services/Catalog/Catalog.API/"]
+
 RUN dotnet restore "./Services/Catalog/Catalog.API/Catalog.API.csproj"
-COPY src/ .
+
+COPY src/BuildingBlocks BuildingBlocks
+COPY src/BuildingBlocks.Messaging BuildingBlocks.Messaging
+COPY src/Services/Catalog/ Services/Catalog
+
 #RUN dotnet build "./Services/Catalog/Catalog.API/Catalog.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

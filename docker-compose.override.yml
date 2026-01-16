@@ -15,30 +15,53 @@ services:
       - basketdb
       - redis
       - discountapi
+      - messagebroker
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5001
-      - ASPNETCORE_HTTPS_PORTS=5051
+      - ASPNETCORE_HTTP_PORTS=6001
+      - ASPNETCORE_HTTPS_PORTS=6061
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_Kestrel__Certificates__Default__Password=55559999
       - ConnectionStrings__Default=Server=basketdb;Port=5432;Username=root;Password=root;Database=BasketDb
       - ConnectionStrings__Redis=redis:6379
-      - Grpc__url=https://discountapi:8081
+      - Grpc__url=https://discountapi:6002
+      - MessageBroker__Host=amqp://ecommerce-mq:5672
+      - MessageBroker__UserName=guest
+      - MessageBroker__Password=guest
     ports:
-      - 6001:5001
-      - 6061:5051
+      - 6001:6001
+      - 6061:6061
+    volumes:
+      - ${USERPROFILE}/.dotnet/https:/https
+
+  orderingapi:
+    depends_on:
+      orderdb:
+        condition: service_healthy
+      messagebroker:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5052
+      - ConnectionStrings__Default=Server=orderdb;Database=orderdb;User Id=sa;Password=TrustMe8520;Encrypt=False;TrustServerCertificate=True
+      - MessageBroker__Host=amqp://ecommerce-mq:5672
+      - MessageBroker__UserName=guest
+      - MessageBroker__Password=guest
+    ports:
+      - 6003:5002
+      - 6063:5052
     volumes:
       - ${USERPROFILE}/.dotnet/https:/https
 
   discountapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_HTTPS_PORTS=6002
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_Kestrel__Certificates__Default__Password=55559999
       - ConnectionStrings__Default=Data Source=./Discount.db
     ports:
-      - 6002:8081
+      - 6002:6002
     volumes:
       - ${USERPROFILE}/.dotnet/https:/https
 
@@ -77,4 +100,20 @@ services:
     volumes:
       - ${USERPROFILE}/DevProjects/docker-volumes/sqlserver-order/data:/var/opt/mssql/data
       - ${USERPROFILE}/DevProjects/docker-volumes/sqlserver-order/log:/var/opt/mssql/log
-    
+    healthcheck:
+      test: ["CMD-SHELL", '/opt/mssql-tools18/bin/sqlcmd -U sa -P TrustMe8520 -C -Q "SELECT 1" || exit 1']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+      
+  messagebroker:
+    container_name: messagebroker
+    hostname: ecommerce-mq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672

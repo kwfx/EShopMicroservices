@@ -15,6 +15,7 @@ public class CheckoutBasketHandler(IBasketRepository repository, IPublishEndpoin
         }
         var checkoutEvent = request.Values.Adapt<BasketCheckoutEvent>();
         checkoutEvent.TotalPrice = basket.TotalPrice;
+        checkoutEvent.Items = basket.Items.Adapt<List<BasketItems>>();
         await publishEndpoint.Publish(checkoutEvent, cancellationToken);
         await repository.DeleteBasket(request.Values.UserName, cancellationToken);
         return new CheckoutBasketResult(true);

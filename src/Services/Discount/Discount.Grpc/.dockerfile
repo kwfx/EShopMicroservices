@@ -8,7 +8,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Services/Discount/Discount.Grpc/Discount.Grpc.csproj", "Services/Discount/Discount.Grpc/"]
 RUN dotnet restore "./Services/Discount/Discount.Grpc/Discount.Grpc.csproj"
-COPY src/ .
+
+COPY ["src/Services/Discount", "Services/Discount/"]
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
