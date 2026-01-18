@@ -4,11 +4,16 @@ services:
       - catalogdb
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5000
+      - ASPNETCORE_HTTP_PORT=5000
+      - ASPNETCORE_HTTPS_PORTS=5050
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=55559999
       - ConnectionStrings__Default=Server=catalogdb;Port=5432;Username=root;Password=root;Database=CatalogDb
     ports:
       - 6000:5000
       - 6060:5050
+    volumes:
+      - ${USERPROFILE}/.dotnet/https:/https
       
   basketapi:
     depends_on:
@@ -42,14 +47,17 @@ services:
         condition: service_started
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5052
+      - ASPNETCORE_HTTP_PORTS=6003
+      - ASPNETCORE_HTTPS_PORTS=6063
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=55559999
       - ConnectionStrings__Default=Server=orderdb;Database=orderdb;User Id=sa;Password=TrustMe8520;Encrypt=False;TrustServerCertificate=True
       - MessageBroker__Host=amqp://ecommerce-mq:5672
       - MessageBroker__UserName=guest
       - MessageBroker__Password=guest
     ports:
-      - 6003:5002
-      - 6063:5052
+      - 6003:6003
+      - 6063:6063
     volumes:
       - ${USERPROFILE}/.dotnet/https:/https
 
