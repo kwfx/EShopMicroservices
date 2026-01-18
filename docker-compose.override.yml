@@ -125,3 +125,17 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+  
+  yarpgateway:
+    container_name: yarpgateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=55559999
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - 6004:8080
+      - 6064:8081
+    volumes:
+      - ${USERPROFILE}/.dotnet/https:/https
